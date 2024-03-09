@@ -20,11 +20,13 @@ export const SignUp: React.FC = () => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [valueSelect, setvalueSelect]= useState("");
 
-const handleSelectChange = (event: SelectChangeEvent<string>) => {
-        const selectedSupplierId = event.target.value[1];
-        console.log('Selected Supplier ID:', selectedSupplierId);
+
+    const [selectedSupplier, setSelectedSupplier] = useState<string>('');
+
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        const selectedSupplierName = event.target.value as string;
+        setSelectedSupplier(selectedSupplierName);
     };
 
     const onButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -52,26 +54,23 @@ const handleSelectChange = (event: SelectChangeEvent<string>) => {
                         <input type="password" name="password" id="password" placeholder="" value={password} onChange={(ev) => setPassword(ev.target.value)} />
                         <label>{passwordError}</label>
                     </div>
-                    <div className="input-group2">
+                    
                         <div className="Suppliers-container"> 
-                        {valueSelect}
-                        <Select
-                                value="" // You need to specify a value or defaultValue for controlled component
+                        <Select className="select"
+                                value={selectedSupplier}
                                 onChange={handleSelectChange}
+                                style={{ color: "rgba(243, 244, 246, 1)"}}
                             >
                                 {DBSuppliers2.map((supplier) => (
-                                    
-                                    <MenuItem key={supplier.id} value={supplier.name,supplier.id}>
-                                    
-                                        { supplier.name}
+                                    <MenuItem key={supplier.id} value={supplier.name}>
+                                        {supplier.name}
                                     </MenuItem>
                                 ))}
                             </Select>
             </div>
 			
       
-
-		</div>
+		
 		<button className="sign"  onClick={onButtonClick}>Sign in</button>
 	</form>
 	<div className="social-message">
