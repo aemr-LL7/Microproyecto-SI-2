@@ -1,15 +1,12 @@
 //import { useState } from 'react'
 import './App.css'
-import { BrowserRouter } from 'react-router-dom';
-import { AppRouter } from './Router';
-
+import { SignUp} from './Pages/SignUp/SignUp'
 function App() {
   //const [count, setCount] = useState(0)
 
   return (
-    <BrowserRouter>
-      <AppRouter/>
-    </BrowserRouter>
+    
+  <SignUp/>
 
   )
 }

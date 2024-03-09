@@ -4,7 +4,7 @@ import React from 'react';
 export const GeneralNavBar: React.FC<object> = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='fixed'>
+            <AppBar className='appBarr'>
                 <Toolbar>
                     <Container maxWidth="xl">
                         <Grid container direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
@@ -15,7 +15,7 @@ export const GeneralNavBar: React.FC<object> = () => {
                                 <Stack direction={'row'} spacing={2}>
                                     <Button variant='contained'>Search</Button>
                                     <Button variant='contained'>Profile</Button>
-                                    <Button variant='contained'>Groups</Button>
+                                    
 
                                 </Stack>
                             </Grid>
