@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, Container, Grid, Button, Typography, Stack } from '@mui/material';
 import React from 'react';
 
-export const GeneralNavBar: React.FC<object> = () => {
+export const NavBar: React.FC<object> = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar className='appBarr'>
