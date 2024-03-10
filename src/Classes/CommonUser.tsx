@@ -17,6 +17,9 @@ export default class CommonUser implements User {
     public getEmail(): string {
         return this.email;
     }
+    public getPassword(): string {
+        return this.password;
+    }
     public setName(newName: string): void {
         this.username = newName;
     }

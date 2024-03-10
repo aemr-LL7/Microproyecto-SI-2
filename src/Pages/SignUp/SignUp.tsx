@@ -3,6 +3,8 @@ import './SignUp.css'
 import { Link, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { signUp } from "../../FireBase/authentacionService";
 import { useNavigate } from 'react-router-dom';
+import CommonUser from '../../Classes/CommonUser';
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 interface Supplier {
     id: number;
@@ -18,14 +20,16 @@ const DBSuppliers2: Supplier[] = [
 
 export const SignUp: React.FC = () => {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+
     const [name, setName] = useState("");
     const [last_name, setLastName] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const [nameError, setNameError] = useState("");
     const [lastnameError, setLastNameError] = useState("");
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
 
@@ -60,10 +64,25 @@ export const SignUp: React.FC = () => {
 
         try {
             // Intenta registrarse
-            const user = await signUp(email, password);
+            const newUser: CommonUser = new CommonUser(`${name} ${last_name}`, email, password);
+            const createUserAuth = await signUp(email, password);
+
+            // Agregar usuario a la colección "usuarios" en Firestore
+            const db = getFirestore();
+            const usersCollection = collection(db, "users");
+            
+            
+            const userData = {
+                username: newUser.getName(),
+                email: newUser.getEmail(),
+                password: newUser.getPassword(),
+                // ... other fields if needed, but exclude password
+              };
+            
+            await addDoc(usersCollection, userData);
 
             // Si el inicio de sesión es exitoso, redirige a la página de inicio
-            if (user) {
+            if (createUserAuth) {
                 console.log("Usuario registrado correctamente"); // Redirige a la ruta principal
                 navigate('/');
             }
