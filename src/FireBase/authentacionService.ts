@@ -20,18 +20,40 @@ export async function signInWithGoogle() {
 }
 
 export async function signUp(email: string, password: string) {
-  console.log("entro")
-  try {
-    const userCrendial = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+  console.log("Entering signUp function");
 
-    return userCrendial.user;
+  // Basic email and password validation
+  if (!email || !password) {
+    throw new Error("Email and password are required fields.");
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  if (password.length < 7) {
+    throw new Error("Password must be at least 7 characters long.");
+  }
+
+  try {
+    // Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User created successfully:", userCredential.user);
+
+    // **Optional:** Add user data to Firestore (if needed)
+    // Replace `agregarUsuarioFirebase` with your actual implementation
+    // const firestoreResult = await agregarUsuarioFirebase({
+    //   nombre: /* user's name */,
+    //   apellido: /* user's last name */,
+    //   correo: email,
+    //   /* ... other user data */
+    // });
+
+    // Succes
+    return userCredential.user;
   } catch (error) {
-    console.log(error);
-    throw Error("Error al crear el usuario");
+    console.error("Error creating user:", error.message);
+    throw error;
   }
 }
 

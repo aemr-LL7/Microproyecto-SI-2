@@ -2,7 +2,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { NotFound } from './Pages/NotFound/NotFound'
-import { SignUp } from './Pages/Signup/SignUp'
+import { SignUp } from './Pages/SignUp/SignUp'
 import { Login } from './Pages/Login/Login'
 import Home from './Pages/Home/Home'
 

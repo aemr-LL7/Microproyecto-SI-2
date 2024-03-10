@@ -1,7 +1,8 @@
 import { useState, ChangeEvent } from "react";
 import './SignUp.css'
 import { Link, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-
+import { signUp } from "../../FireBase/authentacionService";
+import { useNavigate } from 'react-router-dom';
 
 interface Supplier {
     id: number;
@@ -16,11 +17,15 @@ const DBSuppliers2: Supplier[] = [
 ];
 
 export const SignUp: React.FC = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
+    const [name, setName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [nameError, setNameError] = useState("");
+    const [lastnameError, setLastNameError] = useState("");
 
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
 
@@ -29,30 +34,72 @@ export const SignUp: React.FC = () => {
         setSelectedSupplier(selectedSupplierName);
     };
 
-    const onButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
+    const onButtonClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        console.log('Button clicked');
+        console.log("Entra")
 
-        // Rest of your form validation logic
-    };
+        // Set initial error values to empty
+        setEmailError("");
+        setPasswordError("");
+
+        if (!email || !password) {
+            setEmailError("Email and password are required fields.");
+            setPasswordError("Email and password are required fields.");
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setEmailError("Please enter a valid email address.");
+            return;
+        }
+
+        if (password.length < 7) {
+            setPasswordError("Password must be at least 7 characters long.");
+            return;
+        }
+
+        try {
+            // Intenta registrarse
+            const user = await signUp(email, password);
+
+            // Si el inicio de sesión es exitoso, redirige a la página de inicio
+            if (user) {
+                console.log("Usuario registrado correctamente"); // Redirige a la ruta principal
+                navigate('/');
+            }
+        } catch (error) {
+            console.error('Error trying to register: ', error);
+        }
+    }
 
 
     return (
         <div>
 
             <div className="form-container">
-                <p className="title">Sign In</p>
+                <p className="title">Sign Up</p>
                 <form className="form">
                     <div className="input-group">
-                        <label>Username</label>
-                        <input value={email} name="username" id="username" placeholder="" onChange={(ev) => setEmail(ev.target.value)} />
+                        <label >Name</label>
+                        <input value={name} name="name" id="name" placeholder="" onChange={(ev) => setName(ev.target.value)} />
+                        <label>{nameError}</label>
+                    </div>
+                    <div className="input-group">
+                        <label >Last Name</label>
+                        <input value={last_name} name="lastname" id="lastname" placeholder="" onChange={(ev) => setLastName(ev.target.value)} />
+                        <label>{lastnameError}</label>
+                    </div>
+                    <div className="input-group">
+                        <label >Email</label>
+                        <input value={email} name="email" id="email" placeholder="" onChange={(ev) => setEmail(ev.target.value)} />
                         <label>{emailError}</label>
                     </div>
                     <div className="input-group">
-                        <label>Password</label>
+                        <label >Password</label>
                         <input type="password" name="password" id="password" placeholder="" value={password} onChange={(ev) => setPassword(ev.target.value)} />
                         <label>{passwordError}</label>
+                        <div className="forgot">
+                        </div>
                     </div>
 
                     <div className="Suppliers-container">
@@ -71,11 +118,11 @@ export const SignUp: React.FC = () => {
 
 
 
-                    <button className="sign" onClick={onButtonClick}>Sign in</button>
+                    <button className="sign" onClick={onButtonClick}>Sign Up</button>
                 </form>
                 <div className="social-message">
                     <div className="line"></div>
-                    <p className="message">Login with social accounts</p>
+                    <p className="message">Log in with social accounts</p>
                     <div className="line"></div>
                 </div>
                 <div className="social-icons">
