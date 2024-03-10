@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import { signIn, signInWithGoogle } from '../../FireBase/authentacionService';
+import { LoginNavBar } from './LoginNavBar';
 
 
 export const Login: React.FC<object> = () => {
 	const navigate = useNavigate();
-	
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
@@ -67,7 +68,7 @@ export const Login: React.FC<object> = () => {
 	}
 	return (
 		<div>
-
+			<LoginNavBar />
 			<div className="form-container">
 				<p className="title">Login</p>
 				<form className="form">
@@ -108,7 +109,7 @@ export const Login: React.FC<object> = () => {
 					</button>
 				</div>
 				<p className="signup">Don't have an account?
-					<a rel="noopener noreferrer" href="#" className="">Sign up</a>
+					<Link to="/signin" className=""> Sign up</Link>
 				</p>
 			</div>
 		</div>

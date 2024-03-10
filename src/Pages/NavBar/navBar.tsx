@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import { auth } from '../../FireBase/config';
 import { useNavigate } from 'react-router-dom';
+import './navBar.css';
 
 export const NavBar: React.FC<object> = () => {
     const navigate = useNavigate(); // Navigate function
@@ -25,7 +26,7 @@ export const NavBar: React.FC<object> = () => {
                         <Grid container direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
                             <Grid item>
                                 <Typography>
-                                    <Link to="/">Videogames Club</Link>
+                                    <Link to="/" className='title'>Videogames Club</Link>
                                 </Typography>
                             </Grid>
                             <Grid item>

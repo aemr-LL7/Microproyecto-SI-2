@@ -13,7 +13,7 @@ export const LoginNavBar: React.FC<object> = () => {
                             </Grid>
                             <Grid item>
                                 <Stack direction={'row'} spacing={2}>
-                                    <Button variant='contained'>Registrate ahora</Button>
+                                    <Button variant='contained'>Probando navbar inicial</Button>
 
                                 </Stack>
                             </Grid>
