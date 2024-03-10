@@ -14,7 +14,7 @@ export async function signInWithGoogle() {
     const result = await signInWithPopup(auth, googleProvider);
     return result.user;
   } catch (error) {
-    throw new Error("Error al iniciar sesión con Google: " + error.message);
+    throw new Error(`Error al iniciar sesión con Google: ${error.message}`);
   }
 }
 

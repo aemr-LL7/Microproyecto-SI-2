@@ -4,7 +4,7 @@ import './App.css'
 import { NotFound } from './Pages/NotFound/NotFound'
 import { SignUp } from './Pages/SignUp/SignUp'
 import { Login } from './Pages/Login/Login'
-import { Home } from './Pages/Home/Home'
+import Home from './Pages/Home/Home'
 
 function App() {
   //const [count, setCount] = useState(0)
