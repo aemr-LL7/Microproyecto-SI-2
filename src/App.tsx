@@ -1,19 +1,24 @@
 //import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Home } from './Pages/Home/Home'
+import { NotFound } from './Pages/NotFound/NotFound'
 import { SignUp } from './Pages/SignUp/SignUp'
 import { Login } from './Pages/Login/Login'
+import { Home } from './Pages/Home/Home'
 
 function App() {
   //const [count, setCount] = useState(0)
+  const isAuthenticated = true;
 
   return (
     <Routes>
       <Route path='/signin' element={<SignUp />} />
       <Route path='/login' element={<Login />} />
-      {/* <Route path='*' element={<NotFound/>} /> */}
-      <Route path='/' element={<Home />} />
+      <Route
+        path='/'
+        element={isAuthenticated ? <Home /> : <Navigate to='/login' />}
+      />
+      <Route path='*' element={<NotFound />} />
     </Routes>
 
   )

@@ -4,8 +4,19 @@ import {
   AuthProvider,
   signInWithEmailAndPassword,
   signOut,
-  signInWithPopup,
+  signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
+
+const googleProvider = new GoogleAuthProvider();
+
+export async function signInWithGoogle() {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    return result.user;
+  } catch (error) {
+    throw new Error("Error al iniciar sesión con Google: " + error.message);
+  }
+}
 
 export async function signUp(email: string, password: string) {
   console.log("entro")
