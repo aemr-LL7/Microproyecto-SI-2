@@ -6,6 +6,7 @@ import {
   signOut,
   signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
+import { CollectionReference, DocumentData, collection, getFirestore } from "@firebase/firestore";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -67,3 +68,31 @@ export async function logOut() {
     throw Error("Error al cerrar sesion");
   }
 }
+export const agregarUsuarioFirebase = async (usuarioData: {
+  nombre: string,
+  apellido: string,
+  correo: string,
+  password: string,
+  juegoPreferido: string,
+
+}) => {
+  try {
+    // Accede a la colección de usuarios en Firestore
+  const db = getFirestore();
+  const usersCollection = collection(db, 'usuarios');
+
+    // Agrega el usuario a la colección con el método add()
+    await addDoc(usersCollection, usuarioData);
+
+    console.log('Usuario agregado correctamente');
+    return true;
+  } catch (error) {
+    console.error('Error al agregar usuario:', error);
+    return false;
+  }
+}
+
+function addDoc(usersCollection: CollectionReference<DocumentData, DocumentData>, usuarioData: { nombre: string; apellido: string; correo: string; password: string; juegoPreferido: string; }) {
+  throw new Error("Function not implemented.");
+}
+
