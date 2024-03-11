@@ -7,13 +7,44 @@ import {
   signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
 import { CollectionReference, DocumentData, collection, getFirestore } from "@firebase/firestore";
+import { doc, getDoc, query, setDoc, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import Usuarios from "../Classes/Usuarios";
 
 const googleProvider = new GoogleAuthProvider();
 
-export async function signInWithGoogle() {
+export default async function signInWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    return result.user;
+    const db = getFirestore();
+    const name = result.user.displayName.split(' ');
+    const userRef = doc(db, 'users', result.user.uid);
+    
+    await setDoc(userRef, {
+      nombre: name[0],
+      apellido: name[1],
+      password: "",
+      email: result.user.email,
+      Juegopref: "",
+      Clubes: []
+    }, { merge: true });
+     const docSnapshot = await getDoc(userRef);
+     const user= new Usuarios(docSnapshot.data().nombre, docSnapshot.data().apellido, docSnapshot.data().email, docSnapshot.data().password, docSnapshot.data().Juegopref, docSnapshot.data().Clubes);
+    console.log(user)
+     // if (docSnapshot.exists()) {
+    //   console.log("Datos guardados correctamente:");
+    //   console.log("Nombre:", docSnapshot.data().nombre);
+    //   console.log("Apellido:", docSnapshot.data().apellido);
+    //   console.log("Email:", docSnapshot.data().email);
+    //   console.log("Juego preferido:", docSnapshot.data().Juegopref);
+    //   console.log("Clubes:", docSnapshot.data().Clubes);
+    // } else {
+    //   console.log("Error: No se pudo encontrar el documento guardado en Firestore.");
+    // }
+
+    // console.log("Datos actualizados en Firestore:", result.user);
+  
+    return user;
   } catch (error) {
     throw new Error(`Error al iniciar sesión con Google: ${error.message}`);
   }

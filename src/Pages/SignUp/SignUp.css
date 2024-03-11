@@ -124,8 +124,8 @@
    
     justify-content: space-around;
     height: 80%;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+    font-size: 0.875rem;
    
 }
 .select{
@@ -139,4 +139,10 @@
     color: rgba(243, 244, 246, 1);
     
 
+}
+.Suppliers-container label {
+  display: block;
+  color: rgba(156, 163, 175, 1);
+  margin-bottom: 4px;
+  
 }

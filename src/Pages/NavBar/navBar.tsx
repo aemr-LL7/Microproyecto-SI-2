@@ -6,14 +6,18 @@ import { auth } from '../../FireBase/config';
 import { useNavigate } from 'react-router-dom';
 import './navBar.css';
 import SearchBar from './SearchBar';
+import PrivateRoute from '../../Components/PrivateNavBar/PrivateNavbar';
+import PrivateRoute2 from '../../Components/PrivateNavBar/PrivateNavBar2';
 
 export const NavBar: React.FC<object> = () => {
     const navigate = useNavigate(); // Navigate function
-
+    const handleLogin = () => {
+        navigate('/login'); // Redirect to login page
+    };
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            navigate('/login'); // Redirect to login page
+            navigate('/'); // Redirect to login page
         } catch (error) {
             console.error("Error logging out:", error);
         }
@@ -21,26 +25,33 @@ export const NavBar: React.FC<object> = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar className='appBarr'>
-                <Toolbar>
-                    <Container maxWidth="xl">
-                        <Grid container direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-                            <Grid item>
-                                <Typography>
-                                    <Link to="/" className='title'>Videogames Club</Link>
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Stack direction={'row'} spacing={2}>
-                                    {/* <SearchBar />  Agrega el componente SearchBar */}
-                                    <Button variant='contained'>Profile</Button>
-                                    <Button onClick={handleLogout} variant='contained' sx={{ color: "#ffffff", "&:hover": { backgroundColor: "#ffffff", color: "#ff0000", } }}>Log Out</Button>
-                                </Stack>
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </Toolbar>
-            </AppBar>
-        </Box>
+        <AppBar className='appBarr'>
+          <Toolbar>
+            <Container maxWidth="xl">
+              <Grid container direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                <Grid item>
+                  <Typography>
+                    <Link to="/" className='title'>Videogames Club</Link>
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Stack direction={'row'} spacing={2}>
+                    <PrivateRoute>
+                      {/* Mostrar botones de búsqueda, perfil y cerrar sesión si el usuario está autenticado */}
+                      <Button variant='contained'>Search</Button>
+                      <Button variant='contained'>Profile</Button>
+                      <Button onClick={handleLogout} variant='contained' sx={{color: "#ffffff","&:hover": {backgroundColor: "#ffffff",color: "#ff0000",}}}>Log Out</Button>
+                    </PrivateRoute>
+                    <PrivateRoute2>
+                      {/* Mostrar botón de inicio de sesión si el usuario no está autenticado */}
+                      <Button variant='contained' onClick={handleLogin}>Login</Button >
+                    </PrivateRoute2>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Container>
+          </Toolbar>
+        </AppBar>
+      </Box>
     );
 };

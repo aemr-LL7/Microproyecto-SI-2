@@ -1,52 +1,50 @@
-// import { onAuthStateChanged, User } from "firebase/auth";
-// import React, { createContext, FC, useEffect, useState } from "react";
-// import { auth } from "../firebase/config";
-// import { getUserProfile } from "../firebase/users-service";
+import React, { createContext, useContext, useState } from 'react';
+import Usuarios from '../Classes/Usuarios';
 
-// interface UserContextType {
-//   user: User | null;
-//   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-//   isLoadingUser: boolean;
-//   setIsLoadingUser: React.Dispatch<React.SetStateAction<boolean>>;
-// }
 
-// export const UserContext = createContext<UserContextType>({
-//   user: null,
-//   setUser: () => {},
-//   isLoadingUser: true,
-//   setIsLoadingUser: () => {},
-// });
+interface AuthContextType {
+  isAuthenticated: boolean;
+  user: Usuarios | null; // Añadimos la información del usuario
+  login: (user: Usuarios) => void; // Pasamos la información del usuario al iniciar sesión
+  logout: () => void;
+}
 
-// export const UserContextProvider: FC = ({ children }) => {
-//   const [user, setUser] = useState<User | null>(null);
-//   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-//       setIsLoadingUser(true);
-//       if (firebaseUser && !user) {
-//         const userProfile = await getUserProfile(firebaseUser.email);
-//         setUser(userProfile);
-//       } else {
-//         setUser(null);
-//       }
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
-//       setIsLoadingUser(false);
-//     });
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
 
-//     return () => unsubscribe();
-//   }, [user]);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<Usuarios | null>(null); // Inicialmente no hay usuario
 
-//   return (
-//     <UserContext.Provider
-//       value={{
-//         user,
-//         setUser,
-//         isLoadingUser,
-//         setIsLoadingUser,
-//       }}
-//     >
-//       {children}
-//     </UserContext.Provider>
-//   );
-// };
+  const login = (loggedInUser: Usuarios) => {
+    // Aquí realizarías la lógica de autenticación, como enviar credenciales al servidor
+    // y actualizar isAuthenticated basado en la respuesta
+    console.log("Usuario logeado")
+    setIsAuthenticated(true);
+    setUser(loggedInUser); // Actualizamos la información del usuario al iniciar sesión
+    
+  };
+
+  const logout = () => {
+    // Lógica para cerrar sesión, como eliminar tokens de sesión
+    setIsAuthenticated(false);
+    setUser(null); // Eliminamos la información del usuario al cerrar sesión
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

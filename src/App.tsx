@@ -8,18 +8,15 @@ import Home from './Pages/Home/Home'
 
 function App() {
   //const [count, setCount] = useState(0)
-  const isAuthenticated = true;
 
   return (
     <Routes>
-      <Route path='/signin' element={<SignUp />} />
-      <Route path='/login' element={<Login />} />
-      <Route
-        path='/'
-        element={isAuthenticated ? <Home /> : <Navigate to='/login' />}
-      />
-      <Route path='*' element={<NotFound />} />
-    </Routes>
+    <Route path='/home' element={<Home />} />
+    <Route path='/signin' element={<SignUp />} />
+    <Route path='/login' element={<Login />} />
+    <Route path='*' element={<NotFound />} /> {/* Página de error para rutas no definidas */}
+    <Route path='/' element={<Navigate to="/home" />} /> {/* Redirige automáticamente a /home */}
+  </Routes>
 
   )
 }
