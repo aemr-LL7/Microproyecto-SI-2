@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "./UserContext";
+import { AuthContext } from "../../Context/context"; // Importa el contexto de autenticación
+import Usuarios from "../../Classes/Usuarios";
 
 const Profile: React.FC = () => {
-  const { user, setUser } = useContext(UserContext);
-  const [newName, setNewName] = useState<string>(user.username);
-  const [newEmail, setNewEmail] = useState<string>(user.email);
+   const { user, login, logout } = useContext(AuthContext); // Obtén el usuario y las funciones de inicio y cierre de sesión del contexto de autenticación
+    // Obtén el usuario y las funciones de inicio y cierre de sesión del contexto de autenticación
+  const [newName, setNewName] = useState<string>(user ? user.username : "");
+  const [newEmail, setNewEmail] = useState<string>(user ? user.email : "");
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewName(e.target.value);
@@ -17,9 +19,12 @@ const Profile: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí puedes realizar la lógica para actualizar los datos del usuario
-    setUser({ ...user, username: newName, email: newEmail });
+    // Pero para mantenerlo simple, podríamos simplemente mostrar la información en la consola
+    console.log("Nuevo nombre:", newName);
+    console.log("Nuevo email:", newEmail);
   };
 
+ 
   return (
     <div>
       <h2>Perfil de Usuario</h2>
@@ -29,7 +34,7 @@ const Profile: React.FC = () => {
           <input
             type="text"
             id="username"
-            value={newName}
+            value={user.getName()}
             onChange={handleNameChange}
           />
         </div>

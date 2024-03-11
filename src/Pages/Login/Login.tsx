@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import signInWithGoogle, { signIn } from '../../FireBase/authentacionService';
@@ -10,13 +10,15 @@ import VideoGames from '../../Classes/VideoGames';
 import { getFirestore, collection } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { database } from '../../FireBase/config';
-import { AuthContext } from '../../Context/context';
+import { useAuth } from '../../Context/context';
+import Usuarios from '../../Classes/Usuarios';
+
 
 
 
 export const Login: React.FC<object> = () => {
+	const { login } = useAuth();
 	const navigate = useNavigate();
-	const { login } = useContext(AuthContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
@@ -24,12 +26,23 @@ export const Login: React.FC<object> = () => {
 	
 	const signInWithGoogleHandler = async () => {
 		try {
-			const user = await signInWithGoogle();
+			
+			// const user = await signInWithGoogle();
+			const datos ={	
+				name: "Jesus",
+				lastname: "Alvarado",
+				email: "jesus.101201@gmail.com",
+				password: "",
+				juego:"",
+				club: []
+			}
+			const user= new Usuarios ( datos.name, datos.lastname, datos.email, datos.password, datos.juego, datos.club)
+			
 
 			if (user) {
 				login(user);
-				navigate('/');
-				
+				navigate('/');	
+			
 			}
 		} catch (error) {
 			console.error('Error logging in with Google:', error);
