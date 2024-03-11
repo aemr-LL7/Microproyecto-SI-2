@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {DocumentData, onSnapshot, QuerySnapshot} from 'firebase/firestore';
-import { Container } from '@mui/material';
+import { DocumentData, onSnapshot, QuerySnapshot } from 'firebase/firestore';
+//import { Container } from '@mui/material';
 import { NavBar } from '../NavBar/navBar';
 import { clubsCollection } from "../../FireBase/config";
-import './Hometemplate.css'; 
+import './Hometemplate.css';
 import ClubCard from '../../Components/Cards';
+import SearchBar from '../NavBar/SearchBar';
 
 // Y luego usar este tipo al definir el estado y al mapear sobre los documentos:
 interface Club {
@@ -13,6 +14,7 @@ interface Club {
     nombre: string;
     videojuegos: string[];
 }
+
 const Home: React.FC = () => {
     const [clubs, setClubs] = useState<Club[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -49,10 +51,15 @@ const Home: React.FC = () => {
     return (
         <div>
             <NavBar />
-            <h1>Nos encontramos en HOME</h1>
-                 <h2>Clubes disponibles</h2>
+            <h1><br />Nos encontramos en HOME</h1>
+            <h2>Probando Buscador</h2>
+            <div className='DivGames'>
+                <SearchBar />
+            </div>
+
+            <h2><br />Clubes disponibles</h2>
             <div className='DivClub'>
-           
+
                 <div className="club-list">
                     {clubs.map(club => (
                         <ClubCard key={club.id} club={club} />

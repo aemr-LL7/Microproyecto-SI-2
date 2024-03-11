@@ -4,8 +4,8 @@ import React from 'react';
 export const NotFound: React.FC = () => {
   return (
     <div>
-      <h2>Page Not Found</h2>
-      <p>The requested page does not exist.</p>
+      <h1>Page Not Found</h1>
+      <h2>The requested page does not exist.</h2>
     </div>
   );
 };

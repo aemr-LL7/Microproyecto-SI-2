@@ -5,18 +5,19 @@ import { signOut } from "firebase/auth";
 import { auth } from '../../FireBase/config';
 import { useNavigate } from 'react-router-dom';
 import './navBar.css';
+import SearchBar from './SearchBar';
 
 export const NavBar: React.FC<object> = () => {
     const navigate = useNavigate(); // Navigate function
 
     const handleLogout = async () => {
         try {
-          await signOut(auth);
-          navigate('/login'); // Redirect to login page
+            await signOut(auth);
+            navigate('/login'); // Redirect to login page
         } catch (error) {
-          console.error("Error logging out:", error);
+            console.error("Error logging out:", error);
         }
-      };
+    };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -31,10 +32,9 @@ export const NavBar: React.FC<object> = () => {
                             </Grid>
                             <Grid item>
                                 <Stack direction={'row'} spacing={2}>
-                                    <Button variant='contained'>Search</Button>
+                                    {/* <SearchBar />  Agrega el componente SearchBar */}
                                     <Button variant='contained'>Profile</Button>
-                                    <Button onClick={handleLogout} variant='contained' sx={{color: "#ffffff","&:hover": {backgroundColor: "#ffffff",color: "#ff0000",}}}>Log Out</Button>
-
+                                    <Button onClick={handleLogout} variant='contained' sx={{ color: "#ffffff", "&:hover": { backgroundColor: "#ffffff", color: "#ff0000", } }}>Log Out</Button>
                                 </Stack>
                             </Grid>
                         </Grid>
