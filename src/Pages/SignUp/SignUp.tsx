@@ -7,11 +7,12 @@ import CommonUser from '../../Classes/CommonUser';
 import { DocumentData, QuerySnapshot, addDoc, collection, getFirestore, onSnapshot } from "firebase/firestore";
 import VideoGames from "../../Classes/VideoGames";
 import { database } from "../../FireBase/config";
+import Usuarios from "../../Classes/Usuarios";
 
 
 export const SignUp: React.FC = () => {
     const navigate = useNavigate();
-
+	const { login } = useAuth();
     const [name, setName] = useState("");
     const [last_name, setLastName] = useState("");
     const [email, setEmail] = useState('');
@@ -21,43 +22,44 @@ export const SignUp: React.FC = () => {
     const [lastnameError, setLastNameError] = useState("");
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
     const [videogames, setVideogames] = useState<VideoGames[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    useEffect(() => {
-        const unsubscribe = onSnapshot(collection(database, 'games'), (snapshot: QuerySnapshot<DocumentData>) => {
-            try {
-                const fetchedVideoGames = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                } as unknown as VideoGames));
-                setVideogames(fetchedVideoGames);
-                setLoading(false);
-                setError(null);
-            } catch (error) {
-                setLoading(false);
-                setError('Error al cargar los datos');
-                console.error('Error al cargar los datos:', error);
-            }
-        });
+	useEffect(() => {
+		const unsubscribe = onSnapshot(collection(database, 'games'), (snapshot: QuerySnapshot<DocumentData>) => {
+			try {
+				const fetchedVideoGames = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				} as unknown as VideoGames));
+				setVideogames(fetchedVideoGames);
+				setLoading(false);
+				setError(null);
+			} catch (error) {
+				setLoading(false);
+				setError('Error al cargar los datos');
+				console.error('Error al cargar los datos:', error);
+			}
+		});
 
-        return () => unsubscribe();
-    }, []);
+		return () => unsubscribe();
+	}, []);
 
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
+	if (loading) {
+		return <div>Cargando...</div>;
+	}
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
 
 
-    const handleSelectChange = (event: SelectChangeEvent<string>) => {
-        const selectedSupplierName = event.target.value as string;
-        setSelectedSupplier(selectedSupplierName);
-    };
+	const handleSelectChange = (event: SelectChangeEvent<string>) => {
+		const selectedSupplierName = event.target.value as string;
+		setSelectedSupplier(selectedSupplierName);
+	};
 
 
     const onButtonClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -83,30 +85,48 @@ export const SignUp: React.FC = () => {
             setPasswordError("Password must be at least 7 characters long.");
             return;
         }
+        if (!name) {
+            setNameError("Name is required");
+            return;
+        }
+        if (!last_name) {
+            setLastNameError("Last Name is required");
+            return;
+        }
+        if (!selectedSupplier) {
+            setLastNameError("VideoGame is required");
+            return;
+        }
+        
 
         try {
             // Intenta registrarse
-            const newUser: CommonUser = new CommonUser(`${name} ${last_name}`, email, password);
+            const newUser: Usuarios = new Usuarios (name,last_name,email,password,selectedSupplier,[]);
             const createUserAuth = await signUp(email, password);
 
             // Agregar usuario a la colección "usuarios" en Firestore
             const db = getFirestore();
             const usersCollection = collection(db, "users");
-
-
+            
+            
             const userData = {
-                username: newUser.getName(),
+                name: newUser.getName(),
                 email: newUser.getEmail(),
-                password: newUser.getPassword(),
-                // ... other fields if needed, but exclude password
-            };
+                password: newUser.getpassword(),
+                lastname: newUser.getLastName(),
+                juego: newUser.getJuego(),
+                clubs: newUser.getClubs()
 
+                // ... other fields if needed, but exclude password
+              };
+            
             await addDoc(usersCollection, userData);
 
             // Si el inicio de sesión es exitoso, redirige a la página de inicio
             if (createUserAuth) {
                 console.log("Usuario registrado correctamente"); // Redirige a la ruta principal
                 navigate('/');
+                login(newUser)
             }
         } catch (error) {
             console.error('Error trying to register: ', error);
@@ -136,7 +156,7 @@ export const SignUp: React.FC = () => {
                         <label>{emailError}</label>
                     </div>
                     <div className="input-group">
-                        <label >Password</label>
+                    <label >Password</label>
                         <input type="password" name="password" id="password" placeholder="" value={password} onChange={(ev) => setPassword(ev.target.value)} />
                         <label>{passwordError}</label>
                         <div className="forgot">
@@ -144,20 +164,20 @@ export const SignUp: React.FC = () => {
                     </div>
 
                     <div className="Suppliers-container">
-                        <label >VideoGame</label>
-                        <Select className="select"
-                            value={selectedSupplier}
-                            onChange={handleSelectChange}
-                            style={{ color: "rgba(243, 244, 246, 1)" }}
-                        >
-                            {videogames.map((game) => (
+                    <label >VideoGame</label>
+						<Select className="select"
+							value={selectedSupplier}
+							onChange={handleSelectChange}
+							style={{ color: "rgba(243, 244, 246, 1)" }}
+						>
+							{videogames.map((game) => (
 
-                                <MenuItem key={game.ID} value={game.titulo}>
-                                    {game.titulo}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </div>
+								<MenuItem key={game.ID} value={game.titulo}>
+									{game.titulo}
+								</MenuItem>
+							))}
+						</Select>
+					</div>
 
 
 
@@ -174,12 +194,9 @@ export const SignUp: React.FC = () => {
                             <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
                         </svg>
                     </button>
+                    
                 </div>
-                <p>Don't have an account?
-                    <Link to="/login"> Go Log In</Link>
-                </p>
                 
-            
             </div>
         </div>
     )
