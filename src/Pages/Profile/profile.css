@@ -11,6 +11,7 @@
   align-items: center;
   border-radius: 20px;
   background: var(--bg-color);
+
 }
 
 .card__img {
@@ -105,4 +106,5 @@
   background-color: #F8FBFE;
   border-radius: 8px;
   z-index: 1;
+  color: #000;
 }

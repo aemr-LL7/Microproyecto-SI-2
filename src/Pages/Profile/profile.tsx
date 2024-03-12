@@ -122,7 +122,7 @@ if(user.clubs.length > 0){
       
       </div>
       <div className="cardss">
-        <h2>Grupos</h2>
+        <h2 color='black'>Grupos</h2>
         {clubs.map(club => (
             <div key={club.id} className="club">
                 <h3>{club.nombre}</h3>
