@@ -135,10 +135,12 @@ const Editprofile: React.FC = () => {
                 <input type="number" value={newClubs} onChange={handleClubsChange} />
             </div>
             <button onClick={handleUpdateProfile} >Actualizar Perfil</button>
-        <div className="cardss">
+        <div className="">
+
         <h2>Grupos</h2>
         
-               
+            <br />
+            <br />   
                 <Select className="select"
 							value={selectedSupplierName2}
 							onChange={handleSelectChange2}
