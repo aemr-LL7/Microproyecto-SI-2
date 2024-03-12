@@ -25,7 +25,7 @@ const Editprofile: React.FC = () => {
     const [newEmail, setNewEmail] = useState<string>(user ? user.email : "");
     const [newClubs, setNewClubs] = useState<string>(user ? user.clubs : "");
     const [selectedSupplierName2, setSelectedSupplier2] = useState<string>('');
-
+console.log(user);
 
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
     const [videogames, setVideogames] = useState<VideoGames[]>([]);
@@ -73,6 +73,7 @@ const Editprofile: React.FC = () => {
         user.setEmail(e.target.value);
     };
     const handleClubsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const setSelectedSupplier23= event.target.value as string;
         try{
             setNewClubs(e.target.value);
     user.eliminarClub(e.target.value);
@@ -130,20 +131,16 @@ const Editprofile: React.FC = () => {
                 <label>Correo Electrónico  </label>
                 <input type="email" value={newEmail} onChange={handleEmailChange} />
             </div>
-            <div>
-                <label>Eliminar Grupo </label>
-                <input type="number" value={newClubs} onChange={handleClubsChange} />
-            </div>
+           
             <button onClick={handleUpdateProfile} >Actualizar Perfil</button>
         <div className="">
 
-        <h2>Grupos</h2>
+        <h5>Eliminar grupo</h5>
         
-            <br />
             <br />   
                 <Select className="select"
 							value={selectedSupplierName2}
-							onChange={handleSelectChange2}
+							onChange={handleClubsChange}
 							style={{ color: "rgba(243, 244, 246, 1)" }}
 						>
 							  {clubs.map(club => (
@@ -156,6 +153,7 @@ const Editprofile: React.FC = () => {
    
      
     </div>
+    <h5>Cambiar juego</h5>
     <Select className="select"
 							value={selectedSupplier}
 							onChange={handleSelectChange}
