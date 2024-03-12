@@ -62,4 +62,7 @@ export default class Usuarios {
     public eliminarClub( valor: string): void {
         this.clubs = this.clubs.filter((club) => club !== valor);
     }
+    public getpassword(): string {
+        return this.password;
+    }
 }
