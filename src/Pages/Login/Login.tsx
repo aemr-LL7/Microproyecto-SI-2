@@ -33,8 +33,8 @@ export const Login: React.FC<object> = () => {
 				lastname: "Alvarado",
 				email: "jesus.101201@gmail.com",
 				password: "",
-				juego:"",
-				club: []
+				juego:"5",
+				club: ["1","3"]
 			}
 			const user= new Usuarios ( datos.name, datos.lastname, datos.email, datos.password, datos.juego, datos.club)
 			

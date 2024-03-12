@@ -56,4 +56,10 @@ export default class Usuarios {
     public setClubs(newClubs: string[]): void {
         this.clubs = newClubs;
     }
+    public valorEnArray( valor: string): boolean {
+        return this.clubs.includes(valor);
+    }
+    public eliminarClub( valor: string): void {
+        this.clubs = this.clubs.filter((club) => club !== valor);
+    }
 }
