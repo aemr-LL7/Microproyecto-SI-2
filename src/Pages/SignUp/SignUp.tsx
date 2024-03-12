@@ -1,9 +1,8 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import './SignUp.css'
-import { Link, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { signUp } from "../../FireBase/authentacionService";
 import { useNavigate } from 'react-router-dom';
-import CommonUser from '../../Classes/CommonUser';
 import { DocumentData, QuerySnapshot, addDoc, collection, getFirestore, onSnapshot } from "firebase/firestore";
 import VideoGames from "../../Classes/VideoGames";
 import { database } from "../../FireBase/config";
@@ -173,8 +172,8 @@ export const SignUp: React.FC = () => {
 						>
 							{videogames.map((game) => (
 
-								<MenuItem key={game.ID} value={game.titulo}>
-									{game.titulo}
+								<MenuItem key={game.getID()} value={game.getTitle()}>
+									{game.getTitle()}
 								</MenuItem>
 							))}
 						</Select>

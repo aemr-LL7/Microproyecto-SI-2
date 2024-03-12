@@ -1,17 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import signInWithGoogle, { signIn } from '../../FireBase/authentacionService';
 import { LoginNavBar } from './LoginNavBar';
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { DocumentData, QuerySnapshot, onSnapshot } from 'firebase/firestore';
-
-import VideoGames from '../../Classes/VideoGames';
-import { getFirestore, collection } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
-import { database } from '../../FireBase/config';
 import { useAuth } from '../../Context/context';
-import Usuarios from '../../Classes/Usuarios';
+
 
 
 

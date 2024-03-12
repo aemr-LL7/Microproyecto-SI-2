@@ -1,13 +1,13 @@
 
 import React, { useContext, useEffect, useState } from 'react';
-import { collection, DocumentData, onSnapshot, QuerySnapshot } from 'firebase/firestore';
+import { DocumentData, onSnapshot, QuerySnapshot } from 'firebase/firestore';
 
 import { AuthContext } from '../../Context/context';
-import { clubsCollection, database } from "../../FireBase/config";
+import { clubsCollection } from "../../FireBase/config";
 import './profile.css';
 import { useNavigate } from 'react-router-dom';
-import Edit from './editProfile';
-import { SelectChangeEvent } from '@mui/material';
+// import Edit from './editProfile';
+// import { SelectChangeEvent } from '@mui/material';
 import VideoGames from '../../Classes/VideoGames';
 
 

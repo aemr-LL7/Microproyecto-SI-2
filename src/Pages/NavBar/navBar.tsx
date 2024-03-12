@@ -7,7 +7,6 @@ import { signOut } from "firebase/auth";
 import { auth } from '../../FireBase/config';
 import { useNavigate } from 'react-router-dom';
 import './navBar.css';
-import SearchBar from './SearchBar';
 import PrivateRoute from './PrivateNavbar';
 import PrivateRoute2 from './PrivateNavBar2';
 import { useAuth } from '../../Context/context';
