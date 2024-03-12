@@ -27,16 +27,8 @@ export const Login: React.FC<object> = () => {
 	const signInWithGoogleHandler = async () => {
 		try {
 			
-			// const user = await signInWithGoogle();
-			const datos ={	
-				name: "Jesus",
-				lastname: "Alvarado",
-				email: "jesus.101201@gmail.com",
-				password: "",
-				juego:"5",
-				club: ["1","3"]
-			}
-			const user= new Usuarios ( datos.name, datos.lastname, datos.email, datos.password, datos.juego, datos.club)
+			const user = await signInWithGoogle();
+		
 			
 
 			if (user) {

@@ -60,7 +60,7 @@ const Profile: React.FC = () => {
 		const selectedSupplierName = event.target.value as string;
 		setSelectedSupplier(selectedSupplierName);
 	};
-
+if(user.clubs.length > 0){
     useEffect(() => {
       const unsubscribe = onSnapshot(clubsCollection, (snapshot: QuerySnapshot<DocumentData>) => {
           try {
@@ -68,8 +68,9 @@ const Profile: React.FC = () => {
                   id: doc.id,
                   ...doc.data(),
               } as Club));
+              if (user.clubs.length > 0) {
               const userClubs = fetchedClubs.filter(club => user.clubs.includes(club.ID));
-              setClubs(userClubs);
+              setClubs(userClubs);}
               setLoading(false);
               setError(null);
           } catch (error) {
@@ -84,6 +85,7 @@ const Profile: React.FC = () => {
           unsubscribe();
       };
   }, [user]);
+}
 
     if (loading) {
         return <div>Cargando...</div>;

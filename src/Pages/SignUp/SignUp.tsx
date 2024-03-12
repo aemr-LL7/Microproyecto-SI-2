@@ -8,6 +8,7 @@ import { DocumentData, QuerySnapshot, addDoc, collection, getFirestore, onSnapsh
 import VideoGames from "../../Classes/VideoGames";
 import { database } from "../../FireBase/config";
 import Usuarios from "../../Classes/Usuarios";
+import { useAuth } from "../../Context/context";
 
 
 export const SignUp: React.FC = () => {
