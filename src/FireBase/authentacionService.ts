@@ -13,7 +13,7 @@ import Usuarios from "../Classes/Usuarios";
 
 const googleProvider = new GoogleAuthProvider();
 
-export default async function signInWithGoogle() {
+export default async function signUpWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const db = getFirestore();

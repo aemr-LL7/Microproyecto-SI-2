@@ -44,7 +44,7 @@ const SearchBar: React.FC = () => {
         <div>
             <input
                 type="text"
-                placeholder="Search for a game..."
+                placeholder="Busca tu juego deseado..."
                 value={searchTerm}
                 onChange={handleInputChange}
             />
