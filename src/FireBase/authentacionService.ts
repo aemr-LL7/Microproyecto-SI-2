@@ -7,10 +7,8 @@ import {
   signInWithPopup, GoogleAuthProvider, UserCredential
 } from "firebase/auth";
 import { CollectionReference, DocumentData, collection, getFirestore } from "@firebase/firestore";
-import { doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Usuarios from "../Classes/Usuarios";
-import React from 'react'
 const googleProvider = new GoogleAuthProvider();
 
 export default async function signUpWithGoogle() {

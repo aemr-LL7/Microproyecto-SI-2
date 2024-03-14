@@ -24,7 +24,8 @@ const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
 
     // Join a club logic
     const handleJoinClub = (clubId: string) => {
-        // Puedes obtener la información del usuario de tu estado o de donde lo tengas almacenado
+        console.log(clubId);
+        // Puedes obtener la informacion del usuario de tu estado o de donde lo tengas almacenado
         // Luego, utiliza la función addClub del usuario para agregar el club
         // Asegúrate de actualizar el estado del usuario después de unirse al club
     };
