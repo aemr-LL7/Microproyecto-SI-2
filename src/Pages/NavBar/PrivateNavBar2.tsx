@@ -1,6 +1,6 @@
 
 import { useAuth } from "../../Context/context";
-import Usuarios from "../../Classes/Usuarios";
+
 
 import React from 'react'
 interface PrivateRoute2Props {
@@ -8,7 +8,8 @@ interface PrivateRoute2Props {
 }
 
 const PrivateRoute2: React.FC<PrivateRoute2Props> = ({ children }) => {
-  const { user, isLoadingUser }: { user: Usuarios; isLoadingUser?: boolean } = useAuth();console.log(isLoadingUser)
+  const { user } = useAuth();
+
  
   return <>{user ? null : children}</>;
 };

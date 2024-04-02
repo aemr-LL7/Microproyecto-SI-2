@@ -25,13 +25,15 @@ interface VideoGames {
 
 const Editprofile: React.FC = () => {
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const user = useContext(AuthContext)?.user;
     const [newName, setNewName] = useState<string>(user ? user.name : "");
     const [newLastName, setNewLastName] = useState<string>(user ? user.lastname : "");
     const [newEmail, setNewEmail] = useState<string>(user ? user.email : "");
     const [newClubs, setNewClubs] = useState<string>("");
+    console.log(newClubs)
     const [selectedSupplierName2, setSelectedSupplier2] = useState<string>('');
     console.log(user);
+    console.log(setSelectedSupplier2)
 
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
     const [videogames, setVideogames] = useState<VideoGames[]>([]);
@@ -57,34 +59,29 @@ const Editprofile: React.FC = () => {
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
         const selectedSupplierName = event.target.value as string;
         setSelectedSupplier(selectedSupplierName);
-        user.setJuego(selectedSupplierName);
-    };
-    const handleSelectChange2 = (event: SelectChangeEvent<string>) => {
-        const setSelectedSupplier23 = event.target.value as string;
-        setSelectedSupplier2(setSelectedSupplier23);
-        user.setJuego(selectedSupplierName2);
+        user?.setJuego(selectedSupplierName);
     };
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
         setNewName(e.target.value);
-        user.setName(e.target.value);
+        user?.setName(e.target.value);
     };
 
     const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewLastName(e.target.value);
-        user.setLastName(e.target.value);
+        user?.setLastName(e.target.value);
     };
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewEmail(e.target.value);
-        user.setEmail(e.target.value);
+        user?.setEmail(e.target.value);
     };
     const handleClubsChange = (event: SelectChangeEvent<string>) => {
         try {
             const selectedClubName = event.target.value as string;
             setNewClubs(selectedClubName);
-            user.eliminarClub(selectedClubName);
+            user?.eliminarClub(selectedClubName);
 
         }
         catch (error) {
@@ -94,6 +91,8 @@ const Editprofile: React.FC = () => {
     const [clubs, setClubs] = useState<Club[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    console.log(loading)
+    console.log(error)
 
     useEffect(() => {
         const unsubscribe = onSnapshot(clubsCollection, (snapshot: QuerySnapshot<DocumentData>) => {

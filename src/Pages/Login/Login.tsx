@@ -1,4 +1,4 @@
-import  {  useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import signInWithGoogle, { signIn } from '../../FireBase/authentacionService';
@@ -17,18 +17,18 @@ export const Login: React.FC<object> = () => {
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
-	
+
 	const signInWithGoogleHandler = async () => {
 		try {
-			
+
 			const user = await signInWithGoogle();
-		
-			
+
+
 
 			if (user) {
 				login(user);
-				navigate('/');	
-			
+				navigate('/');
+
 			}
 		} catch (error) {
 			console.error('Error logging in with Google:', error);
@@ -38,7 +38,7 @@ export const Login: React.FC<object> = () => {
 	const onButtonClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
 		event.preventDefault();
-		
+
 		// Set initial error values to empty
 
 		setEmailError("");
@@ -50,7 +50,7 @@ export const Login: React.FC<object> = () => {
 			return;
 		}
 
-		if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+		if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
 			setEmailError("Please enter a valid email");
 			return;
 		}
@@ -96,7 +96,7 @@ export const Login: React.FC<object> = () => {
 						<label>{passwordError}</label>
 					</div>
 
-					
+
 
 					<button className="sign" onClick={onButtonClick}>Sign in</button>
 				</form>

@@ -31,7 +31,7 @@ export const SignUp: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedSupplier, setSelectedSupplier] = useState<string>('');
-    const [videogames, setVideogames] = useState([]);
+    const [videogames, setVideogames] = useState<videoGames[]>([]);
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(database, 'games'), (snapshot: QuerySnapshot<DocumentData>) => {
             try {
@@ -39,7 +39,7 @@ export const SignUp: React.FC = () => {
                     id: doc.id,
                     ...doc.data(),
                 } as unknown));
-                setVideogames(fetchedVideoGames);
+                setVideogames(fetchedVideoGames as videoGames[]);
                 setLoading(false);
                 setError(null);
             } catch (error) {

@@ -7,7 +7,7 @@ import { clubsCollection } from "../../FireBase/config";
 import './profile.css';
 import { useNavigate } from 'react-router-dom';
 // import Edit from './editProfile';
-import VideoGames from '../../Classes/VideoGames';
+
 
 
 interface Club {
@@ -19,16 +19,18 @@ interface Club {
 }
 const Profile: React.FC = () => {
   const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const user = useContext(AuthContext)?.user;
     const [clubs, setClubs] = useState<Club[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    console.log(loading)
     const [error, setError] = useState<string | null>(null);
-    const [selectedSupplier, setSelectedSupplier] = useState<string>('');
-    const [videogames, setVideogames] = useState<VideoGames[]>([]);
+
+   
+   
 
 	
-if(user.getClubs().length > 0){
-    console.log("Hollalaaaaa")
+if(user && user.getClubs().length > 0){
+
     useEffect(() => {
       const unsubscribe = onSnapshot(clubsCollection, (snapshot: QuerySnapshot<DocumentData>) => {
           try {
@@ -78,8 +80,8 @@ if(user.getClubs().length > 0){
             <path d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z"></path>
         </svg></div>
      
-         <div className="card__title">{user.name} {user.lastname}</div>
-      <div className="card__subtitle">{user.email}</div>
+       <div className="card__title">{user?.name} {user?.lastname}</div>
+    <div className="card__subtitle">{user?.email}</div>
       <div className="card__wrapper">
           <button className="card__btn" onClick={handleUpdateProfile}>Editar</button>
           <button className="card__btn" onClick={handleUpdateregresar}>Regresar</button>

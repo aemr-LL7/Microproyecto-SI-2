@@ -15,7 +15,7 @@ export default async function signUpWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const db = getFirestore();
-    const name = result.user.displayName.split(' ');
+    const name = result.user.displayName ? result.user.displayName.split(' ') : ['',''];
     const userRef = doc(db, 'users', result.user.uid);
     
     await setDoc(userRef, {
@@ -27,8 +27,13 @@ export default async function signUpWithGoogle() {
       Clubes: []
     }, { merge: true });
      const docSnapshot = await getDoc(userRef);
-     const user= new Usuarios(docSnapshot.data().nombre, docSnapshot.data().apellido, docSnapshot.data().email, docSnapshot.data().password, docSnapshot.data().Juegopref, docSnapshot.data().Clubes);
+     const data = docSnapshot.data();
+    if (data) {
+    const user= new Usuarios(data.nombre, data.apellido, data.email, data.password, data.Juegopref, data.Clubes);
     console.log(user)
+    return user;
+    }
+
      // if (docSnapshot.exists()) {
     //   console.log("Datos guardados correctamente:");
     //   console.log("Nombre:", docSnapshot.data().nombre);
@@ -42,9 +47,9 @@ export default async function signUpWithGoogle() {
 
     // console.log("Datos actualizados en Firestore:", result.user);
   
-    return user;
+  
   } catch (error) {
-    throw new Error(`Error al iniciar sesión con Google: ${error.message}`);
+    throw new Error(`Error al iniciar sesión con Google: ${(error as Error).message}`);
   }
 }
 
@@ -81,7 +86,7 @@ export async function signUp(email: string, password: string) {
     // Succes
     return userCredential.user;
   } catch (error) {
-    console.error("Error creating user:", error.message);
+
     throw error;
   }
 }
@@ -94,7 +99,7 @@ export async function signIn(email: string, password: string) {
       email,
       password,
     );
-    const user= new Usuarios("","",userCredential.user.email,"","",[]);
+    const user= new Usuarios("","",userCredential.user.email || "", "", "", []);
    
     // Obtener los datos adicionales del usuario desde la base de datos
   
@@ -105,13 +110,14 @@ export async function signIn(email: string, password: string) {
 
     return user;
   } catch (error) {
-    throw new Error('Error al iniciar sesión: ' + error.message);
+    throw new Error('Error al iniciar sesión: ' + (error as Error).message);
     return null;
   }
 }
 export async function signInProvider(provider: AuthProvider) {
   try {
     const result = await signInWithPopup(auth, provider);
+    console.log(result)
   } catch (error) {
     throw Error(
       "Error al iniciar sesion con el proveedor" + provider.providerId
@@ -152,6 +158,8 @@ export const agregarUsuarioFirebase = async (usuarioData: {
 }
 
 function addDoc(usersCollection: CollectionReference<DocumentData, DocumentData>, usuarioData: { nombre: string; apellido: string; correo: string; password: string; juegoPreferido: string; }) {
+  console.log(usersCollection)
+  console.log(usuarioData)
   throw new Error("Function not implemented.");
 }
 
